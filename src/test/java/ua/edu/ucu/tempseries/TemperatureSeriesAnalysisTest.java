@@ -31,6 +31,9 @@ public class TemperatureSeriesAnalysisTest {
         double[] temperatureSeriesEmpty = {};
         TemperatureSeriesAnalysis seriesAnalysisEmpty = new TemperatureSeriesAnalysis(temperatureSeriesEmpty);
         assertEquals(0, seriesAnalysisEmpty.getTemperatureSeries().length);
+
+        TemperatureSeriesAnalysis seriesAnalysisDefualt = new TemperatureSeriesAnalysis();
+        assertEquals(0, seriesAnalysisEmpty.getTemperatureSeries().length);
     }
 
     @Test(expected = InputMismatchException.class)
@@ -145,6 +148,13 @@ public class TemperatureSeriesAnalysisTest {
         assertEquals(10, seriesAnalysis.addTemps(additionals));
         assertEquals(4.63, seriesAnalysis.getTemperatureSeries()[0], 0.01);
         assertEquals(-3.24, seriesAnalysis.getTemperatureSeries()[5], 0.01);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSummaryStatisticsForEmpty() {
+        double[] temperatureSeriesEmpty = {};
+        TemperatureSeriesAnalysis seriesAnalysisEmpty = new TemperatureSeriesAnalysis(temperatureSeriesEmpty);
+        seriesAnalysisEmpty.summaryStatistics();
     }
 
     @Test

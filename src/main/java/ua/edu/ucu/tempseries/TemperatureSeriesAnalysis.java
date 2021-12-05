@@ -15,18 +15,18 @@ public class TemperatureSeriesAnalysis {
         temperatureSeries = new double[]{};
     }
 
-    public double[] getTemperatureSeries() {
-        return temperatureSeries;
-    }
-
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
-        for(double temp : temperatureSeries) {
+        for (double temp : temperatureSeries) {
             if (temp < LOW_BOUND) {
                 throw new InputMismatchException();
             }
         }
 
         this.temperatureSeries = temperatureSeries.clone();
+    }
+
+    public double[] getTemperatureSeries() {
+        return temperatureSeries;
     }
 
     public double average() {
@@ -117,21 +117,22 @@ public class TemperatureSeriesAnalysis {
             throw new IllegalArgumentException();
         }
 
-        TempSummaryStatistics sumStat = new TempSummaryStatistics(this.average(), this.deviation(), this.min(), this.max());
+        TempSummaryStatistics sumStat = new TempSummaryStatistics(
+                this.average(), this.deviation(), this.min(), this.max());
 
-        return sumStat ;
+        return sumStat;
     }
 
     public int addTemps(double... temps) {
         int currIdx = temperatureSeries.length;
         for (double temp : temps) {
-            if(currIdx  == temperatureSeries.length) {
+            if (currIdx  == temperatureSeries.length) {
                 int newSize = temperatureSeries.length*2;
                 temperatureSeries = Arrays.copyOf(temperatureSeries, newSize);
             }
             temperatureSeries[currIdx ] = temp;
-            currIdx ++;
+            currIdx++;
         }
-        return currIdx ;
+        return currIdx;
     }
 }
