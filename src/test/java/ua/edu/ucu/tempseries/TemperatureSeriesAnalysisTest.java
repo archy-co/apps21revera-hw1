@@ -3,6 +3,8 @@ package ua.edu.ucu.tempseries;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.util.InputMismatchException;
+
 public class TemperatureSeriesAnalysisTest {
 
     @Test
@@ -17,6 +19,24 @@ public class TemperatureSeriesAnalysisTest {
 
         // compare expected result with actual result
         assertEquals(expResult, actualResult, 0.00001);
+    }
+
+    @Test
+    public void testTemperatureSeriesAnalysisConstructor() {
+        double[] temperatureSeries = {-1.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
+        assertEquals(1, seriesAnalysis.getTemperatureSeries().length);
+        assertEquals(-1.0, seriesAnalysis.getTemperatureSeries()[0], 0.001);
+
+        double[] temperatureSeriesEmpty = {};
+        TemperatureSeriesAnalysis seriesAnalysisEmpty = new TemperatureSeriesAnalysis(temperatureSeriesEmpty);
+        assertEquals(0, seriesAnalysisEmpty.getTemperatureSeries().length);
+    }
+
+    @Test(expected = InputMismatchException.class)
+    public void testInvalidSeriesValForConstructor() {
+        double[] temperatureSeriesEmpty = {-300};
+        TemperatureSeriesAnalysis seriesAnalysisEmpty = new TemperatureSeriesAnalysis(temperatureSeriesEmpty);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -104,7 +124,7 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
-    public void findTempsGreaterThen() {
+    public void testFindTempsGreaterThen() {
         double[] temperatureSeries = {4.63, 14.12, 11.72, -1.04, -5.89};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
 
@@ -116,14 +136,23 @@ public class TemperatureSeriesAnalysisTest {
     }
 
     @Test
-    public void addTemps() {
+    public void testAddTemps() {
         double[] temperatureSeries = {4.63, 14.12, 11.72, -1.04, -5.89};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
 
         double[] additionals = {-3.24, 2.19, 3.43, 1.13, 4.7};
 
         assertEquals(10, seriesAnalysis.addTemps(additionals));
-        assertEquals(4.63, seriesAnalysis.temperatureSeries[0], 0.01);
-        assertEquals(-3.24, seriesAnalysis.temperatureSeries[5], 0.01);
+        assertEquals(4.63, seriesAnalysis.getTemperatureSeries()[0], 0.01);
+        assertEquals(-3.24, seriesAnalysis.getTemperatureSeries()[5], 0.01);
+    }
+
+    @Test
+    public void testSummaryStatistics(){
+        double[] temperatureSeries = {4.63, 14.12, 11.72, -1.04, -5.89};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(temperatureSeries);
+
+        assertEquals("TempSummaryStatistics{avgTemp=4.708, devTemp=8.413041661610858, minTemp=-5.89, maxTemp=14.12}",
+                                seriesAnalysis.summaryStatistics().toString());
     }
 }
