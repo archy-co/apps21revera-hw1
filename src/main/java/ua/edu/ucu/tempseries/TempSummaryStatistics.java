@@ -6,10 +6,21 @@ public class TempSummaryStatistics {
     private final double minTemp;
     private final double maxTemp;
 
-    TempSummaryStatistics(double avgTemp_, double devTemp_, double minTemp_, double maxTemp_){
-        avgTemp = avgTemp_;
-        devTemp = devTemp_;
-        minTemp = minTemp_;
-        maxTemp = maxTemp_;
+    TempSummaryStatistics(double avgTempL, double devTempL,
+                          double minTempL, double maxTempL) {
+        avgTemp = avgTempL;
+        devTemp = devTempL;
+        minTemp = minTempL;
+        maxTemp = maxTempL;
+    }
+
+    @Override
+    public String toString() {
+        return "TempSummaryStatistics{" +
+                "avgTemp=" + avgTemp +
+                ", devTemp=" + devTemp +
+                ", minTemp=" + minTemp +
+                ", maxTemp=" + maxTemp +
+                '}';
     }
 }
